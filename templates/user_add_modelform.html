@@ -1,0 +1,49 @@
+{% extends 'lay.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+{% endblock %}
+{% block content %}
+<div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">新建员工(modelform方式)</div>
+            <div class="panel-body">
+                <form method ='post' novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        <span style="color:#ff0000">{{ field.errors.0 }}</span>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">添 加</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <!--引入datetimepicker的中文汉化包-->
+    <script src="{% static 'plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+    <script>
+            $('#id_creat_time').datetimepicker({
+                //格式
+                format: 'yyyy-mm-dd',
+                //可选的最小视图
+                minView: 'month',
+                //起始时间
+                startDate: '0',
+                //设置语言为中文
+                language: 'zh-CN',
+                //完成选择后，自动关闭
+                autoclose: true
+            });
+    </script>
+
+{% endblock %}

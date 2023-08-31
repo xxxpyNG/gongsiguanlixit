@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+    </style>
+    <!--CSS占位符-->
+    {% block css %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/depart/list/">公司管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/admin/list/">管理员管理</a></li>
+                <li><a href="/depart/list/">部门管理</a></li>
+                <li><a href="/user/list/">员工管理</a></li>
+                <li><a href="/pretty/list/">公司车辆管理</a></li>
+                <li><a href="/task/list/">项目管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login/">切换账号</a> </li>
+                <li class="dropdown">·
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true"
+                       aria-expanded="false">{{ request.session.info.username }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">个人资料</a></li>
+                        <li><a href="#">我的信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout/">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--内容占位符-->
+{% block content %}{% endblock %}
+<script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}">
+</script>
+<!--js占位符-->
+{% block js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'lay.html' %}
+{% block content %}
+<div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">新建员工(form方式)</div>
+            <div class="panel-body">
+                <form method ='post'>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">添 加</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

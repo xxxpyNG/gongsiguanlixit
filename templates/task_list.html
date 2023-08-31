@@ -1,0 +1,179 @@
+{% extends 'lay.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">项目表单</div>
+            <div class="panel-body">
+                <form id="formAdd" novalidate>
+                    <div class="clearfix">
+                        {% for field in form %}
+                            <div class="col-xs-6">
+                                <div class="form-group" style="position: relative;margin-bottom: 20px;">
+                                    <label>{{ field.label }}</label>
+                                    {{ field }}
+                                    <span style="color:red;position: absolute" class="error_msg"></span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary" id="btnAdd">提 交</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                项目列表
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>级别</th>
+                    <th>项目负责人</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in queryset %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.get_level_display}}</td>
+                        <td>{{ item.user.username}}</td>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-xs">删除</a>
+                            <a href="#" class="btn btn-info btn-xs">编辑</a>
+                            <a href="#" class="btn btn-info btn-xs">完成</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+        <div style="height: 1000px"></div>
+        <hr>
+        <h1>Ajax学习</h1>
+        <h3>示例1</h3>
+        <input type="button" value="点击" class="btn btn-primary" id="btn1"></input>
+
+        <h3>示例2</h3>
+        <input type="text" placeholder="姓名" id="txtUser">
+        <input type="text" placeholder="年龄" id="txtAge">
+        <input type="button" value="点击" class="btn btn-primary" id="btn2">
+
+        <h3>示例3</h3>
+        <form id="form3">
+            <input type="text" name="user" placeholder="姓名">
+            <input type="text" name="age" placeholder="年龄">
+            <input type="text" name="email" placeholder="邮箱">
+            <input type="text" name="info" placeholder="简介">
+            <input type="button" value="提交" class="btn btn-primary" id="btn3">
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        //设置页面框架加载后自动执行某函数
+        $(function () {
+            bindBtnEvent();
+            bindBtn2Event();
+            bindBtn3Event();
+            bindBtnAddEvent();
+        })
+
+        function bindBtnEvent() {
+            $('#btn1').click(function () {
+                $.ajax({
+                    url: '/task/ajax/',//请求的url
+                    type: 'post', //请求的方式：get/post
+                    data: { //传递过去的参数
+                        n1: 123,
+                        n2: 456
+                    },
+                    dataType: 'JSON',//将json_string反序列化字典对象
+                    success: function (res) { //后端返回的响应数据
+                        //res就是一个字典对象
+                        console.log(res);
+                        console.log(res.status);
+                        console.log(res.data);
+                    }
+                });
+            });
+        }
+
+        function bindBtn2Event() {
+            $('#btn2').click(function () {
+                $.ajax({
+                    url: '/task/ajax/',//请求的url
+                    type: 'post', //请求的方式：get/post
+                    data: { //传递过去的参数
+                        n1: $('#txtUser').val(),//获取文本框内输入的内容
+                        n2: $('#txtAge').val(),
+                    },
+                    dataType: 'JSON',//将json_string反序列化字典对象
+                    success: function (res) { //后端返回的响应数据
+                        //res就是一个字典对象
+                        console.log(res);
+                        console.log(res.status);
+                        console.log(res.data);
+                    }
+                });
+            });
+        }
+
+        function bindBtn3Event() {
+            $('#btn3').click(function () {
+                $.ajax({
+                    url: '/task/ajax/',//请求的url
+                    type: 'post', //请求的方式：get/post
+                    data: $('#form3').serialize(),//自动将表单中所有用户填写数据，并打包提交到后端
+                    dataType: 'JSON',//将json_string反序列化字典对象
+                    success: function (res) { //后端返回的响应数据
+                        //res就是一个字典对象
+                        console.log(res);
+                        console.log(res.status);
+                        console.log(res.data);
+                    }
+                });
+            });
+        }
+
+        function bindBtnAddEvent() {
+            $('#btnAdd').click(function () {
+                //再提交之前，获取span，并将其清空
+                $('.error_msg').empty();
+                $.ajax({
+                    url: '/task/add/',//请求的url
+                    type: 'post', //请求的方式：get/post
+                    data: $('#formAdd').serialize(),//自动将表单中所有用户填写数据，并打包提交到后端
+                    dataType: 'JSON',//将json_string反序列化字典对象
+                    success: function (res) { //后端返回的响应数据
+                        //如果数据校验成功，弹出提示
+                        if (res.status) {
+                            alert('添加成功');
+                        } else {
+                            //遍历res.error(字典，里卖弄存放的错误提示)
+                            $.each(res.error, function (name, data) {
+                                //name表示字段,data表示对应的错误提示
+                                console.log(name, data);
+                                //拼接生成控件id的值,并将提示的信息写入到span中
+                                $('#id_' + name).next().text(data[0]);
+                            })
+                        }
+                    }
+                });
+            });
+        }
+
+    </script>
+{% endblock %}
