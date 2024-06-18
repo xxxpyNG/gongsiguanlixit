@@ -20,5 +20,5 @@ python manage.py runserver
 # 登录页面
 ![截图1](https://github.com/xxxpyNG/gongsiguanlixit/blob/b21a383fb1223c989d7ffb7e5e5ae767170f0f70/photo/2.png)
 ![截图2](https://github.com/xxxpyNG/gongsiguanlixit/blob/f248e478a20162a69d2dcd642ec4828b9d676520/photo/1.png)
-![截图3](https://github.com/yourusername/yourproject/raw/main/images/screenshot2.png)
+![截图3](https://github.com/xxxpyNG/gongsiguanlixit/blob/78f2022419c6bd27faa12815719a22d414ad7a17/photo/3.png)
 ![截图4](https://github.com/yourusername/yourproject/raw/main/images/screenshot3.png)
